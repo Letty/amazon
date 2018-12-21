@@ -1,2 +1,5 @@
 .DS_Store
 .ipynb_checkpoints
+
+export_data/
+data/
