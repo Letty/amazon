@@ -30,19 +30,19 @@ SESSION_TYPE | Type 1: RecognizedShoppingSessions Type 2: UnrecognizedShoppingSe
 CUSTOMER_ID | represents customer number to relate visitor to account
 TAB_NAME | TAB_NAME = Store name. It is the tab that is highlighted at the top of the page and shows the store when you are viewing a page.
 REF_MARKER_ADD_TYPE | The type of ref marker associated with the add:
- | Cart Adds: 0
- | Wishlist Adds: 1
- | Baby Registry Adds: 2
- | Wedding Registry Adds: 3
- | Gift List Adds: 4
+ . | Cart Adds: 0
+ . | Wishlist Adds: 1
+ . | Baby Registry Adds: 2
+ . | Wedding Registry Adds: 3
+ . | Gift List Adds: 4
 REF_MARKER_ADDED_ASIN | This is the ASIN (article number) associated with an AddEvent (see line above) that has been attributed to a ref-marker.
 SHORTENED_URL | Shortened version of the URL without product and session information
 URL_ADD_TYPE | The type of add : 
- | 0 Cart
- | 1 Wishlist
- | 2 Registry
- | 3 Registry.
- | Often same as ref_marker_add_type.
+ . | 0 Cart
+ . | 1 Wishlist
+ . | 2 Registry
+ . | 3 Registry.
+ . | Often same as ref_marker_add_type.
 URL_ADDED_ASIN | Article (ASIN) associated with an AddEvent.
 DEPART | Value of 1 indicates that the customer ended their web browsing on Amazon for the day, but does not provide any information about their subsequent activity.
 SHORTENED_TO_URL | Next page viewed on Amazon website. This follows the same truncation rules as the ShortenedURL.
@@ -50,9 +50,9 @@ SHORTENED_FROM_URL | Previous page viewed on Amazon website. This follows the sa
 UBID | The UBID is used to to personalize the WebSite for the user to generate a better user experience.
 CLICK_ID | This is the unique ID that we give each click per session per day.
 CUST_SESSION_RECOGNITION_CODE | This describes whether or not a session was recognized. A session is recognized if every hit in the session was recognized. A session is unrecognized if every hit in the session was unrecognized. A session is mixed if the hits are a combination of the two.
-  | 0 => recognized
-  | 1 => unrecognized 
-  | 2 => mixed
+  . | 0 => recognized
+  . | 1 => unrecognized 
+  . | 2 => mixed
 PAGE_ACTION | page-action describes page requests (example: AddToCart).
 HTTP_REQUEST_ID | A RequestId is generated for every website hit. This can be used to uniquely identify every request. It is usually emitted in all related logs (e.g. error log, query log), allowing you to join across many log entries, sometimes even across services.
 REFERRER_URL | The URL from which the user came to be on this page. The URL that referred to this page.
