@@ -4,10 +4,16 @@
 
 TODO:
 
-* what is the purpose of this repo
 * what do you need to run the scripts
 * how to access the visualizations
 * requirements.txt for python is missing.. 
+
+## Why?
+This Repository is a collection of different explorative analyses and (some) visualizations with the Amazon Clickstream Data.
+This project began with the question by Kattascha, if i can have a look inside her Amazon Data, which she previously requested via DSGVO.
+She asked me what kind of data is inside the clickstream and what information i can get from her, beside the purchased products.
+I handled the data with the best of my knowledge. If there are any mistakes, submit an issue. If your requested data is different from the one i had, let us know!
+I do not plan to make a "non-tech friendly" version of the analyses and visualizations in the near feature. Sorry, but i don't know where to start in terms of usability.
 
 ## Links
 
