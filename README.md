@@ -6,7 +6,7 @@ TODO:
 
 * what do you need to run the scripts
 * how to access the visualizations
-* requirements.txt for python is missing.. 
+* check requirements.txt 
 
 ## Why?
 This Repository is a collection of different explorative analyses and (some) visualizations with the Amazon Clickstream Data.
@@ -20,6 +20,12 @@ I do not plan to make a "non-tech friendly" version of the analyses and visualiz
 * [Kattaschas Blog - Approach on How to get your Data GERMAN](http://kattascha.de/datenauskunft)
 * [Talk about the Amazon Data - Archäologische Studien im Datenmüll](https://media.ccc.de/v/35c3-9858-archaologische_studien_im_datenmull) You can switch between German or English and French Translation
 
+## What do you need?
+
+* [Python 3](https://www.python.org/downloads/)
+* [pip - Python Package Manager](https://pypi.org/project/pip/)
+* [Jupyter Notebook](https://jupyter.org/install.html)
+* Install Python Packages in folder `scripts/` with `pip install -r requirements.txt`
 
 ## Dimensions 
 
@@ -32,7 +38,10 @@ LEGAL_ENTITY_ID | ID of market Place (e.g. Amazon.de = 103)
 HIT_DATETIME | Time of the page visit, in local time
 HIT_DAY | Day of the page visit.
 SESSION_ID | The ID used to identify the customer's clickstream data. Non persistent ID re-assigned per session.
-SESSION_TYPE | Type 1: RecognizedShoppingSessions Type 2: UnrecognizedShoppingSessions Type 3: PotentialShoppingSessions Type 4: NonShoppingSessions.
+SESSION_TYPE | Type 1: RecognizedShoppingSessions 
+ . | Type 2: UnrecognizedShoppingSessions 
+ . | Type 3: PotentialShoppingSessions 
+ . | Type 4: NonShoppingSessions.
 CUSTOMER_ID | represents customer number to relate visitor to account
 TAB_NAME | TAB_NAME = Store name. It is the tab that is highlighted at the top of the page and shows the store when you are viewing a page.
 REF_MARKER_ADD_TYPE | The type of ref marker associated with the add:
