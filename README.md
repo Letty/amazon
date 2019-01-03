@@ -11,8 +11,10 @@ TODO:
 ## Why?
 This Repository is a collection of different explorative analyses and (some) visualizations with the Amazon Clickstream Data.
 This project began with the question by Kattascha, if i can have a look inside her Amazon Data, which she previously requested via DSGVO.
+
 She asked me what kind of data is inside the clickstream and what information i can get from her, beside the purchased products.
 I handled the data with the best of my knowledge. If there are any mistakes, submit an issue. If your requested data is different from the one i had, let us know!
+
 I do not plan to make a "non-tech friendly" version of the analyses and visualizations in the near feature. Sorry, but i don't know where to start in terms of usability.
 
 ## Links
@@ -26,6 +28,37 @@ I do not plan to make a "non-tech friendly" version of the analyses and visualiz
 * [pip - Python Package Manager](https://pypi.org/project/pip/)
 * [Jupyter Notebook](https://jupyter.org/install.html)
 * Install Python Packages in folder `scripts/` with `pip install -r requirements.txt`
+
+## How to Analyse
+
+### Scripts for analysis and data export
+
+**List Dimensions**
+File: `01_first_impression.ipynb`
+
+**Activities and Orders**
+File: `02_clean_data_activities_orders_and_books.ipynb`
+
+**Location Detection**
+
+### Visualizations
+I prefer coding my Visualizations in pure [D3js](https://d3js.org/). The library in version 5.7 is inside the `lib/` folder. You can use `d3.js` for development, since you have a nice error stack and `d3.min.js` for production.
+
+**Activity**
+
+**Activity vs Orders**
+
+**Timeline**
+
+**Bookshelf**
+
+**Library Time**
+
+**Save Images**
+
+* save as png? -> screenshot
+* as svg (easy)-> [SVG Crowbar](https://nytimes.github.io/svg-crowbar/)
+* as svg (advanced) -> copy svg snippet from dom and save in file
 
 ## Dimensions 
 
@@ -83,7 +116,15 @@ IS_FIRST_VIEWED_PAGE | IsFirstViewedPage is set to 1 for the first non-redirect 
 PAGE_RENDERED_LANGUAGE_CODE | The language code associated with the rendered page.
 SUB_STORE_NAME | The SubStoreName corresponds to the Sub-Nav bar that is highlighted for the user.
 VISIT_START_DATETIME | Logs time and date of the customer’s visit relevant for the client program. Used only in relation to client program.
-HIT_TYPE | Type of the page hit. Values include ASIN 0 * PAGE_VIEW 1 * REDIRECT 2 * POPUP 3 * HEADER_REFRESH 4 * DATA_CACHING 5* BROWSER_NAVIGATION | 6 to distinguish between user interaction and programmatic page hits
+HIT_TYPE | Type of the page hit. Values include 
+  . | ASIN 0
+  . | PAGE_VIEW 1
+  . | REDIRECT 2
+  . | POPUP 3
+  . | HEADER_REFRESH 4
+  . | DATA_CACHING 5
+  . | BROWSER_NAVIGATION 6 
+  . | to distinguish between user interaction and programmatic page hits
 PAGE_ASSEMBLY_METHOD | This field describes how the Page View was generated, as a page often contains elements from various sources.
 MARKETPLACE_ID | Unique identifier for a marketplace,e.g. Germany is 4
 IS_INTERNAL | 1 = indicates an Amazon.com internal IP address, 0 = not.
