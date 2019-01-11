@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookshelf Visualization</title>
+    <script src="../lib/d3.js"></script>
+
+    <style>
+        .y-axis path,
+        .y-axis line {
+            stroke: none;
+        }
+
+        .y-axis text {
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+</body>
+
+<script>
+
+    let margin = { top: 10, bottom: 30, left: 80, right: 10 };
+    let book_dimensions = { width: 35, height: 120, margin_lr: 3, margin_tb: 10 };
+
+    d3.dsv('\t', '../export_data/ordered_books.csv', d => {
+        return {
+            "date": `${d.year}-${d.month}`,
+            'count': +d.count
+        }
+    }).then(data => {
+        let width = d3.max(data, d => d.count) * (book_dimensions.width + book_dimensions.margin_lr),
+            height = data.length * (book_dimensions.height + book_dimensions.margin_lr);
+
+        let yBooks = d3.scaleBand()
+            .rangeRound([0, height])
+            .domain(data.map(d => d.date))
+            .padding(0.1)
+
+        let yAxis = d3.axisLeft(yBooks);
+
+        let svg = d3.select('body')
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', (d, i) => `translate(${margin.left},0)`);
+
+        svg.append('g')
+            .attr('class', 'y-axis')
+            .call(yAxis);
+
+        // fake y axis after every 10th book
+        let axis = svg.selectAll('.fake-axis')
+            .data(d3.range(parseInt(d3.max(data, d => d.count) / 10)))
+            .enter().append('g')
+            .attr("transform", (d, i) => `translate(${(book_dimensions.width * (d + 1) * 10 + book_dimensions.margin_lr * (d + 1) * 10) - book_dimensions.margin_lr / 2},0)`);
+
+        axis.append('line')
+            .attr('class', 'fake-axis')
+            .attr('y1', 0)
+            .attr('y2', height + margin.top + margin.bottom)
+            .attr('x1', 0)
+            .attr('x2', 0)
+            .attr('stroke', 'black')
+            .attr('stroke-dasharray', 4)
+        axis.append('text')
+            .text(d => (d + 1) * 10)
+            .attr('y', height + margin.top + margin.bottom)
+            .attr('x', 3)
+
+
+        // a shelf for every month
+        let shelf = svg.selectAll('.shelves')
+            .data(data)
+            .enter().append('g')
+            .attr('class', 'shelves')
+            .attr("transform", (d, i) => `translate(0,${(book_dimensions.height * i) + (book_dimensions.margin_tb * i)})`);
+
+        // make a svg group for one book
+        let book = shelf.selectAll('.books')
+            .data(d => { return d3.range(d.count) })
+            .enter().append('g')
+            .attr("transform", (d, i) => `translate(${book_dimensions.width * d + book_dimensions.margin_lr * d},0)`)
+            .attr('class', 'books');
+
+        // rectangle of the book
+        book.append('rect')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', book_dimensions.width)
+            .attr('height', book_dimensions.height)
+            .attr('rx', 3)
+            .attr('ry', 3)
+            .style('fill', '#702963')
+
+
+        // make three lines on book spine as "text"
+        let l1 = book_dimensions.height / 100 * 10,
+            l2 = l1 * 2,
+            l3 = l1 * 3;
+
+        book.append('line')
+            .attr('x1', 0)
+            .attr('x2', book_dimensions.width)
+            .attr('y1', l1)
+            .attr('y2', l1)
+            .style('stroke', 'white')
+            .style('stroke-width', '2px')
+
+        book.append('line')
+            .attr('x1', 0)
+            .attr('x2', book_dimensions.width)
+            .attr('y1', l2)
+            .attr('y2', l2)
+            .style('stroke', 'white')
+            .style('stroke-width', '2px')
+
+        book.append('line')
+            .attr('x1', 0)
+            .attr('x2', book_dimensions.width)
+            .attr('y1', l3)
+            .attr('y2', l3)
+            .style('stroke', 'white')
+            .style('stroke-width', '2px')
+
+    })
+
+</script>
+
+</html>
