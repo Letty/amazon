@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interaction Times - Visualization</title>
+    <script src="../lib/d3.js"></script>
+</head>
+
+<body>
+    <div id='time-detail'></div>
+    <div id='time-overview'></div>
+
+</body>
+<script>
+
+    let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+    // todo: make height based on numbers of days inside the file
+    let margin = { top: 10, bottom: 30, left: 80, right: 10 };
+    let width = 1100 - margin.left - margin.right,
+        height = 1500 - margin.top - margin.bottom,
+        height2 = 160 - margin.top - margin.bottom;
+
+    let svg_overview = d3.select('#time-overview')
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom);
+
+    let svg_detail = d3.select('#time-detail')
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height2 + margin.top + margin.bottom);
+
+
+    let time = d3.timeFormat("%H:%M:%S"),
+        date = d3.timeFormat("%Y %b %_d");
+
+    let dates = d3.scaleTime()
+        .range([0, width])
+
+    let yDates = d3.scaleBand()
+        .range([0, height])
+        .padding(0.1);
+
+    let y = d3.scaleBand()
+        .rangeRound([0, height2])
+        .padding(0.1)
+
+    let xTimes = d3.scaleLinear()
+        .domain([0, 59 + 59 * 60 + 23 * 60 * 60])
+        .range([0, width]);
+
+    var yAxis = d3.axisLeft(yDates),
+        yAxis2 = d3.axisLeft(y)
+            .tickFormat(d => {
+                return days[d];
+            }),
+        xAxis = d3.axisBottom(xTimes)
+            .ticks(23)
+            .tickFormat(d => {
+                return convertToTime(d)
+            });
+
+    var g = svg_overview.append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    var gy = g.append('g')
+        .attr('class', 'y-axis')
+        .call(yAxis);
+    var gx = g.append('g')
+        .attr('class', 'x-axis')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(xAxis);
+
+    var g2 = svg_detail.append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    var gy2 = g2.append('g')
+        .attr('class', 'y-axis')
+        .call(yAxis2);
+    var gx2 = g2.append('g')
+        .attr('class', 'x-axis')
+        .attr('transform', 'translate(0,' + height2 + ')')
+        .call(xAxis);
+
+    d3.dsv('\t', '../export_data/interactions_per_day.csv', d => {
+        d_ = new Date(d["hit_datetime"]);
+        return {
+            "datum": d_,
+            "weekday": d_.getDay(),
+            "day": date(d_),
+            "time": time(d_),
+            "seconds": d_.getUTCSeconds() + d_.getUTCMinutes() * 60 + d_.getUTCHours() * 60 * 60
+        }
+    }).then(data => {
+
+        let l = data.map(d => {
+            return d.day;
+        })
+        console.log(l.length)
+
+        data.sort((a, b) => {
+            return a.datum - b.datum;
+        });
+        yDates.domain(data.map(d => {
+            return d.day;
+        }))
+        let tmp_day = data.map(d => {
+            return d.weekday;
+        })
+        y.domain(tmp_day.sort())
+
+        gy.call(yAxis);
+        gy2.call(yAxis2);
+        gx.call(xAxis);
+        gx2.call(xAxis);
+
+        var dots = g.selectAll('.dot')
+            .data(data);
+        dots.exit().remove();
+        dots.enter().append('circle')
+            .style('fill', 'rgba(63, 0, 125, 0.1)')
+            .merge(dots)
+            .attr('r', 4)
+            .attr('cy', d => {
+                return yDates(d.day) + yDates.bandwidth() * 0.5;
+            })
+            .attr('cx', d => {
+                return xTimes(d.seconds);
+            })
+            .style('fill', 'rgba(149, 41, 130, 0.2)')
+
+        var dots2 = g2.selectAll('.dot2')
+            .data(data);
+        dots2.exit().remove();
+        dots2.enter().append('circle')
+            .style('fill', 'rgba(63, 0, 125, 0.1)')
+            .merge(dots2)
+            .attr('r', 3)
+            .attr('cy', d => {
+                return y(d.weekday) + y.bandwidth() * 0.5;
+            })
+            .attr('cx', d => {
+                return xTimes(d.seconds);
+            })
+            .style('fill', 'rgba(149, 41, 130, 0.05)')
+
+    })
+
+    function convertToTime(sec) {
+        var sec_num = parseInt(sec, 10);
+        var hours = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+        if (hours < 10) { hours = "0" + hours; }
+        if (minutes < 10) { minutes = "0" + minutes; }
+        if (seconds < 10) { seconds = "0" + seconds; }
+        return hours + ':' + minutes;
+    }
+
+</script>
+
+</html>
